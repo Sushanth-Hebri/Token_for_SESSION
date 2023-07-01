@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Token for local storage</title>
+    <style>
+        * {
+            margin: 0;
+
+        }
+
+        body {
+            color: dark black;
+        }
+
+        .agent {
+            text-align: center;
+            color: blue;
+        }
+
+        .content {
+            width: 500px;
+            height: 500px;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="content">
+        <h1 class="agent">Time toke for locally stored data</h1>
+        <label for="size">Your age</label>
+        <input type="text" name="size" id="age" placeholder="enter your age here">
+        <input type="submit" onclick="checknum()">
+        <br>
+        <h1 style="text-align: center;">Come before 1 min to get data</h1>
+        <input type="button" onclick="getdata()" placeholder=" " value="check my age">
+    </div>
+    <script>
+        function checknum() {
+            let age = document.getElementById('age').value;
+            let expiration = new Date().getTime() + (1 * 60 * 1000);
+            let data = {
+                age: age,
+                expiration: expiration
+            };
+            localStorage.setItem('ageData', JSON.stringify(data));
+            alert("age stored with 1min expiration");
+        }
+        function getdata() {
+            let data = localStorage.getItem('ageData');
+            if (data) {
+                let agedata = JSON.parse(data);
+                let currenttime = new Date().getTime();
+                if (currenttime < agedata.expiration) {
+                    let age = agedata.age;
+                    alert("great" + age);
+                }
+                else {
+                    localStorage.removeItem('ageData');
+                    alert("you lost age");
+                }
+
+            }
+        }
+
+    </script>
+</body>
+
+</html>
